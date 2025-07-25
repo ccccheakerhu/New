@@ -1,4 +1,3 @@
-
 import json
 import logging
 import os
@@ -6,7 +5,24 @@ from datetime import datetime, timedelta
 from telegram import Update
 from telegram.ext import Application, CommandHandler, ContextTypes
 
-from config import ADMIN_ID, CHANNEL_ID, database, save_database, check_subscription
+# Set your bot token and admin details directly here
+BOT_TOKEN = "8430527380:AAEPuPvnglL962Ff4UgMXUEFbCyLYh62Tgw"
+ADMIN_ID = 8020848509
+CHANNEL_ID = "@Ghost_Carderr"
+
+# Sample in-memory database
+database = {
+    "users": {},
+    "codes": {}
+}
+
+def save_database():
+    with open("database.json", "w") as f:
+        json.dump(database, f)
+
+def check_subscription(bot, user_id):
+    # Dummy implementation (should be replaced with real check)
+    return True
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -61,8 +77,7 @@ async def mass(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text("🧪 Mass check started (demo response).")
 
 def main():
-    token = os.getenv("BOT_TOKEN")
-    app = Application.builder().token(token).build()
+    app = Application.builder().token(BOT_TOKEN).build()
 
     app.add_handler(CommandHandler("start", start))
     app.add_handler(CommandHandler("generatecode", generate_code))
